@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>پازل پرامپت</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--g1:#cfe6ff;--g2:#ecd6ff;--g3:#c9f5e8;--fg:#14202b;--mut:#43566a;--glass:rgba(255,255,255,.45);--gb:rgba(255,255,255,.8);--acc:#0b7f69;--accfg:#fff;--inp:rgba(255,255,255,.6);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--g1:#0d2740;--g2:#321a52;--g3:#0a4d47;--fg:#f2f6fb;--mut:#b9c6d4;--glass:rgba(255,255,255,.1);--gb:rgba(255,255,255,.25);--acc:#7ff0d4;--accfg:#06241d;--inp:rgba(255,255,255,.12)}}
+:root[data-theme="dark"]{--g1:#0d2740;--g2:#321a52;--g3:#0a4d47;--fg:#f2f6fb;--mut:#b9c6d4;--glass:rgba(255,255,255,.1);--gb:rgba(255,255,255,.25);--acc:#7ff0d4;--accfg:#06241d;--inp:rgba(255,255,255,.12)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);min-height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--fg);font-family:Vazirmatn,Tahoma,sans-serif;line-height:1.7;background:linear-gradient(135deg,var(--g1),var(--g2) 55%,var(--g3)) fixed}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(circle at 15% 20%,rgba(255,120,200,.35),transparent 40%),radial-gradient(circle at 85% 75%,rgba(70,220,200,.35),transparent 42%)}
+main{max-width:1100px;margin:0 auto;padding:16px}
+.gl{background:var(--glass);border:1px solid var(--gb);border-radius:20px;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);box-shadow:0 8px 32px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.4)}
+h1{font-size:1.5rem;margin:0 0 6px}
+.card{max-width:440px;margin:6vh auto 0;padding:24px}
+label{display:block;margin:10px 0 2px;font-size:.9rem;color:var(--mut)}
+input{width:100%;font:inherit;color:var(--fg);background:var(--inp);border:1px solid var(--gb);border-radius:12px;padding:10px 12px}
+button{font:inherit;color:var(--fg);cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.btn{background:var(--inp);border:1px solid var(--gb);border-radius:12px;padding:8px 16px}
+.main{background:var(--acc);color:var(--accfg);border-color:var(--acc);font-weight:700}
+.btn:disabled{opacity:.45;cursor:default}
+.err{color:#e0446a;min-height:1.6em;font-size:.9rem}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;color:var(--mut);font-size:.9rem}
+.problem{padding:14px 18px;margin-bottom:12px;white-space:pre-line;font-weight:700}
+.grid{display:grid;grid-template-columns:190px 1fr 1fr;gap:12px}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.panel{padding:12px;min-width:0}
+.panel h2{font-size:.9rem;margin:0 0 8px;color:var(--mut)}
+.pr{display:flex;align-items:center;gap:8px;width:100%;text-align:right;padding:8px 10px;margin-bottom:6px;border:2px solid transparent;border-radius:12px;color:#10201a}
+.pr.open{border-color:var(--fg)}
+.pr .ck{margin-inline-start:auto}
+.opt{display:block;width:100%;text-align:right;padding:9px 12px;margin-bottom:8px;border:1px solid var(--gb);border-radius:12px;background:var(--inp)}
+.opt.sel{border:2px solid var(--acc)}
+.stack{display:flex;flex-direction:column;gap:6px}
+.blk{padding:8px 12px 8px 84px;color:#10201a;border-radius:12px;position:relative;font-size:.9rem;border:1px solid rgba(255,255,255,.6)}
+.blk b{display:block;font-size:.8rem}
+.ctl{position:absolute;left:6px;top:6px;display:flex;gap:3px}
+.ctl button{border:0;background:rgba(0,0,0,.14);border-radius:8px;width:22px;height:22px;padding:0;color:#10201a;font-size:.75rem}
+.cap{padding:7px 12px;border-radius:12px;background:rgba(20,32,43,.78);color:#fff;font-weight:700}
+.empty{padding:14px;color:var(--mut);font-size:.9rem;text-align:center;border:1px dashed var(--gb);border-radius:12px}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.res{margin-top:12px;padding:16px}
+.score{font-size:1.8rem;font-weight:700}
+.fb{padding:6px 0;border-top:1px solid var(--gb);font-size:.92rem}
+.hint{color:var(--mut);font-size:.9rem}
+table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{padding:5px 6px;text-align:right;border-bottom:1px solid var(--gb)}
+</style>
+</head>
+<body>
+<main>
+<section id="reg" class="gl card">
+<h1>پازل پرامپت</h1>
+<div class="hint">برای شروع، مشخصاتت را وارد کن. یک سناریوی تصادفی به تو می‌رسد و فقط یک بار فرصت ارزیابی داری.</div>
+<label for="fn">نام</label><input id="fn" autocomplete="off">
+<label for="ln">نام خانوادگی</label><input id="ln" autocomplete="off">
+<label for="ph">شمارهٔ همراه</label><input id="ph" dir="ltr" inputmode="numeric" placeholder="09123456789" autocomplete="off">
+<div class="err" id="er"></div>
+<div class="row"><button class="btn main" id="st">شروع بازی</button><button class="btn" id="lb">جدول نتایج</button></div>
+</section>
+<section id="bd" class="gl card" hidden style="max-width:620px"><h1>جدول نتایج</h1><div id="bt"></div><div class="row"><button class="btn" onclick="show('reg')">بازگشت</button></div></section>
+<section id="game" hidden>
+<div class="bar"><span id="who"></span><span id="sn"></span></div>
+<div class="gl problem" id="prob"></div>
+<div class="grid">
+<div class="gl panel"><h2>اصل‌ها</h2><div id="pl"></div></div>
+<div class="gl panel"><h2 id="oh">گزینه‌ها</h2><div id="ol"></div></div>
+<div class="gl panel"><h2>پرامپت تو (ترتیب مهم است)</h2><div class="stack" id="stk"></div>
+<div class="row"><button class="btn main" id="go">ارزیابی نهایی</button></div></div>
+</div>
+<div class="gl res" id="res" hidden></div>
+</section>
+</main>
+const API = 'https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnQNmM5K1lkkJ0xmFfYmAnBYOhUseGfJLJIcXm9TM6I_3vYWxG35Ne68xt-Io0l7GFetxyU04qX_8HNGp02SK64eigcVaF9_H3zKwWP9ze_Kq9vnVhFM5YACt32-uEJLV5yTYKFD0XywVZGqKSxfG-VoxpfUaQywhnhP7UToOS_0IGYwi2WuaSFt-iRE_Jajd9EFvOGP6xagEA0wREvO6Us6Ovc7S6LeACs3fwYfcgntAHvoLXOsZ1lVHumHaQRNkGzDt_BN9-6fJHWcMtMxDEjWQEl86g&lib=M_TzN_eaB7SL2Mebq1VfsOVHpFtKFXhmf' <script>
+const P=[
+{k:'ctx',n:'زمینه',c:'#9be3a6',e:'🟩'},{k:'role',n:'نقش',c:'#9cc9f5',e:'🟦'},{k:'ex',n:'نمونه',c:'#f7e08a',e:'🟨'},
+{k:'con',n:'محدودیت',c:'#f5a3a3',e:'🟥'},{k:'steps',n:'مراحل',c:'#cfa8ef',e:'🟪'},{k:'think',n:'تفکر',c:'#f8c08a',e:'🟧'}];
+const ORD=['role','ctx','steps','think','ex','con'];
+const W={ctx:'زمینه (موضوع، مخاطب، موقعیت) جلوی حدس‌زدن هوش مصنوعی را می‌گیرد.',role:'نقش، لحن و سطح تخصص پاسخ را تنظیم می‌کند.',ex:'نمونه، سبک و قالب مطلوب را روشن‌تر از توضیح نشان می‌دهد.',con:'محدودیت قابل‌سنجش (طول، قالب، لحن) خروجی را قابل‌استفاده می‌کند.',steps:'مراحل جلوی جاافتادن بخشی از کار چندبخشی را می‌گیرد.',think:'تفکر برای کارهای نیازمند استدلال و سنجش گزینه‌هاست.'};
+// [موضوع، مخاطب، موقعیت، نقش، محدودیت، نمونه، مراحل، موضوع تفکر، نیازها به ترتیب: زمینه نقش نمونه محدودیت مراحل تفکر]
+const D=[
+['یک پیام شبکه اجتماعی برای تشویق به غربالگری سلامت روان','دانشجویان دانشکده بهداشت','هفتهٔ امتحانات، با معرفی مرکز مشاورهٔ دانشگاه','مشاور سلامت روان دانشگاه','حداکثر ۴۰ کلمه، لحن صمیمی، یک ایموجی','«امتحانات که می‌رسه، حال خودت هم مهمه 🌿»','','','nnonxx'],
+['تحلیل داده‌های شیوع آنفلوانزا در پاییز','مدیران شبکهٔ بهداشت','داده‌های ۱۴۰۴ شهر تهران به تفکیک گروه سنی','اپیدمیولوژیست','حداکثر یک صفحه: جدول و سه نکتهٔ کلیدی','','۱) گروه‌های پرمبتلا ۲) مقایسه با فصل قبل ۳) الگوهای غیرعادی ۴) علل احتمالی','فرضیه‌ها و محدودیت‌های داده','noxonn'],
+['توضیح اینکه چرا باید مسواک زد','کودکان ۸ ساله','کلاس آموزشی مدرسه','پرستار کودکان','حداکثر ۶ جمله، زبان ساده','«مسواک مثل سپر است و میکروب‌های شیطون را دور می‌کند»','','','nnnnxx'],
+['بروشور آموزشی که اصطلاحات پزشکی را ساده توضیح دهد','بیماران سالمند','درمانگاه دیابت، سطح سواد کم','پزشک خانواده','جمله‌های کوتاه، بدون اصطلاح لاتین','«فشار خون بالا» ← «وقتی خون با فشار زیاد به رگ‌ها فشار می‌آورد»','','','nonoxx'],
+['برنامهٔ ورزشی هفتگی','دانشجویی که روزی ۳۰ دقیقه وقت دارد','بدون وسیله، در خوابگاه','مربی تناسب اندام','جدول هفت‌روزه، هر روز حداکثر ۳۰ دقیقه','','','','noxnxx'],
+['گزارش ارزیابی خطر سلامت در یک محل کار','مدیر کارخانه','کارخانهٔ تولید رنگ با ۲۰۰ کارگر','متخصص بهداشت حرفه‌ای','خروجی جدول: خطر، شدت، راهکار','','۱) خطرها را فهرست کن ۲) شدت و احتمال را بسنج ۳) اولویت‌بندی کن ۴) راهکار بده','شدت و احتمال هر خطر','nnxonn'],
+['پاسخ به یک شایعهٔ واکسن','والدین دانشجویان','گروه تلگرامی دانشکده، لحن محترمانه','کارشناس واکسیناسیون','حداکثر ۶۰ کلمه، بدون تحقیر، با یک منبع معتبر','','','نگرانی اصلی والدین و شواهد علمی','nnxnxo'],
+['۵ سؤال چهارگزینه‌ای برای ارزیابی آموزش','دانشجویان سال اول بهداشت عمومی','مبحث بروز و شیوع در اپیدمیولوژی','استاد اپیدمیولوژی','هر سؤال یک پاسخ درست و توضیح کوتاه','سؤال: بروز یعنی …؟ الف) … ب) … ← پاسخ: ب، چون …','','','nonnxx'],
+['برنامهٔ ده‌روزهٔ کمپین تغذیهٔ سالم','دانشجویان ساکن خوابگاه','بودجهٔ کم و آشپزخانهٔ مشترک','کارشناس تغذیه','جدول ده‌روزه با یک اقدام کوچک برای هر روز','','۱) هدف کمپین ۲) پیام‌های روزانه ۳) فعالیت‌های مشارکتی ۴) شاخص ارزیابی','','noxonx'],
+['انتخاب بهترین روش برای کاهش مصرف دخانیات','شورای دانشجویی','دانشگاه با بودجهٔ محدود','مشاور سیاست‌گذاری سلامت','مقایسهٔ دو گزینه در جدول و یک پیشنهاد','','','هزینه، اثربخشی و موانع اجرایی هر روش','noxoxn'],
+['متن ارائه برای دفاع از یک پیشنهاد پژوهشی','هیئت داوران','ارائهٔ ۳ دقیقه‌ای دربارهٔ تأثیر خواب بر یادگیری','پژوهشگر سلامت','سه بخش: مسئله، روش، اهمیت؛ حداکثر ۳۵۰ کلمه','','۱) مسئله ۲) روش ۳) اهمیت','','noxnnx'],
+['ایمیل رسمی برای درخواست جلسه','استاد راهنما','دانشجوی ارشد، موضوع پایان‌نامه','دانشجوی مؤدب','حداکثر ۱۰۰ کلمه، لحن رسمی','','','','noxnxx'],
+['انتخاب موضوع پایان‌نامه بین سه گزینه','یک دانشجوی ارشد','علاقه به سلامت دیجیتال، ۱۸ ماه زمان، دادهٔ محدود','مشاور پژوهشی','جدول مقایسه و یک توصیهٔ نهایی','','','امکان‌سنجی، نوآوری و دسترسی به داده','noxoxn'],
+['متن پوستر آگاه‌سازی دربارهٔ واکسیناسیون','سالمندان','مرکز بهداشت محله، زمستان','کارشناس آموزش سلامت','حداکثر ۵۰ کلمه، لحن امیدوار','«یک واکسن امروز، یک زمستان آرام‌تر»','','','noonxx'],
+['تحلیل نتایج نظرسنجی رضایت از غذای دانشگاه','مدیر تغذیهٔ دانشگاه','۵۰۰ نفر، میانگین رضایت ۳٫۲ از ۵','تحلیلگر داده','سه یافتهٔ اصلی و دو پیشنهاد','','۱) نقاط ضعف ۲) گروه‌های ناراضی ۳) علت‌ها ۴) اقدام پیشنهادی','علل احتمالی و سوگیری نظرسنجی','noxonn']];
+const $=id=>document.getElementById(id),pm=k=>P.find(x=>x.k===k);
+let db=null,u={},sc,ix,r,sel,seq,open,done;
+try{claude.use('db').then(d=>db=d).catch(()=>{})}catch(e){}
+function show(id){['reg','bd','game'].forEach(s=>$(s).hidden=s!==id)}
+function mk(d){const[T,A,Z,R,C,E,S,F,N]=d,sh=a=>a.sort(()=>Math.random()-.5);
+const o={ctx:[[T+'؛ مخاطب: '+A+'؛ '+Z,2],[T,1],['یک متن دربارهٔ همین موضوع بنویس',0]],
+role:[['تو '+R+' هستی که برای '+A+' می‌نویسی',2],['تو یک متخصص هستی',1],['تو یک ربات هستی',0]],
+ex:[['نمونه: '+(E||'یک متن کوتاه از همین موضوع'),2],['نمونه: یک متن طولانی و نامرتبط',0]],
+con:[[C,2],['کوتاه و مفید باشد',1],['هرچه خواستی بنویس',0]],
+steps:[[S||'اول مقدمه، بعد نتیجه',2],['اول بررسی کن، بعد نتیجه را بگو',1],['همه‌چیز را یکجا انجام بده',0]],
+think:[['پیش از پاسخ، '+(F||'گزینه‌های مختلف')+' را بسنج و بعد بهترین گزینه را بگو',2],['با دقت جواب بده',1],['فکر کن',0]]};
+const t='ctx role ex con steps think'.split(' ');const x={};t.forEach((k,i)=>x[k]={t:N[i],o:sh(o[k])});return x}
+$('st').onclick=()=>{
+const f=$('fn').value.trim(),l=$('ln').value.trim(),p=$('ph').value.replace(/[۰-۹]/g,c=>c.charCodeAt(0)-1776).replace(/[٠-٩]/g,c=>c.charCodeAt(0)-1632).replace(/\s|-/g,'');
+if(!f||!l)return $('er').textContent='نام و نام خانوادگی را وارد کن.';
+if(!/^09\d{9}$/.test(p))return $('er').textContent='شمارهٔ همراه باید ۱۱ رقم و با ۰۹ شروع شود.';
+$('er').textContent='';u={f,l,p};ix=Math.floor(Math.random()*D.length);sc=D[ix];r=mk(sc);sel={};seq=[];open=null;done=false;
+$('who').textContent=f+' '+l;$('sn').textContent='یک سناریوی تصادفی';
+$('prob').textContent='ماموریت: '+sc[0]+'\nمخاطب: '+sc[1];$('res').hidden=true;show('game');render()};
+function render(){
+$('pl').innerHTML=P.map(p=>`<button class="pr ${open===p.k?'open':''}" style="background:${p.c}" onclick="op('${p.k}')"><span>${p.e}</span><b>${p.n}</b><span class="ck">${sel[p.k]!=null?'✔':''}</span></button>`).join('');
+if(open){$('oh').textContent='گزینه‌ها برای «'+pm(open).n+'» (فقط یکی)';
+$('ol').innerHTML=r[open].o.map((o,i)=>`<button class="opt ${sel[open]===i?'sel':''}" ${done?'disabled':''} onclick="pick('${open}',${i})">${o[0]}</button>`).join('')}
+else{$('oh').textContent='گزینه‌ها';$('ol').innerHTML='<div class="empty">یک اصل را از فهرست انتخاب کن.</div>'}
+$('stk').innerHTML='<div class="cap">سلام هوش مصنوعی…</div>'+(seq.length?seq.map((k,j)=>{const p=pm(k);return`<div class="blk" style="background:color-mix(in srgb,${p.c} 88%,transparent)"><b>${p.e} ${p.n}</b>${r[k].o[sel[k]][0]}<div class="ctl"><button ${done?'disabled':''} aria-label="بالا" onclick="mv(${j},-1)">▲</button><button ${done?'disabled':''} aria-label="پایین" onclick="mv(${j},1)">▼</button><button ${done?'disabled':''} aria-label="حذف" onclick="rm('${k}')">×</button></div></div>`}).join(''):'<div class="empty">هنوز بلوکی نگذاشته‌ای.</div>')+'<div class="cap">پایان</div>';
+$('go').disabled=done}
+function op(k){open=k;render()}
+function pick(k,i){if(sel[k]===i){rm(k);return}if(sel[k]==null)seq.push(k);sel[k]=i;render()}
+function rm(k){delete sel[k];seq=seq.filter(x=>x!==k);render()}
+function mv(j,d){const t=j+d;if(t<0||t>=seq.length)return;[seq[j],seq[t]]=[seq[t],seq[j]];render()}
+$('go').onclick=async()=>{
+if(done)return;done=true;let sum=0,max=0,h='';
+P.forEach(p=>{const q0=r[p.k],c=sel[p.k],q=c!=null?q0.o[c][1]:null,t=q0.t;let i,m;
+if(t==='n'){max+=2;sum+=q??0;if(q==null){i='❌';m='جا افتاد. '+W[p.k]}else if(q===2){i='✅';m='عالی بود.'}else if(q===1){i='⚠️';m='لازم بود، ولی دقیق‌تر بنویس.'}else{i='❌';m='گزینهٔ ضعیف انتخاب شد.'}}
+else if(t==='o'){if(q==null){i='➖';m='اختیاری بود.'}else if(q>=1){i='✅';m='انتخاب خوبی بود.'}else{i='⚠️';m='گزینهٔ ضعیف بهتر از نگذاشتن نیست.';sum-=1}}
+else{if(q==null){i='✅';m='درست تشخیص دادی که لازم نبود.'}else{i='❌';m='اینجا لازم نبود و پرامپت را شلوغ می‌کند.';sum-=1}}
+h+=`<div class="fb">${i} <b>${p.n}:</b> ${m}</div>`});
+let ok=0,tot=0;for(let a=0;a<seq.length;a++)for(let b=a+1;b<seq.length;b++){tot++;if(ORD.indexOf(seq[a])<ORD.indexOf(seq[b]))ok++}
+const oc=tot?ok/tot:0,sco=Math.round(80*Math.max(0,sum)/max+20*oc);
+h+=`<div class="fb">${tot&&oc===1?'✅':'⚠️'} <b>ترتیب:</b> ${tot?(oc===1?'ترتیب بلوک‌ها منطقی بود.':'ترتیب بلوک‌ها بهتر می‌شد.'):'برای سنجش ترتیب حداقل دو بلوک لازم است.'} ترتیب پیشنهادی: نقش ← زمینه ← مراحل ← تفکر ← نمونه ← محدودیت</div>`;
+$('res').hidden=false;
+$('res').innerHTML=`<div class="score">${sco}٪</div><div class="hint">${sco>=85?'پرامپت‌نویس حرفه‌ای!':sco>=55?'خوب بود، یک قدم دیگر مانده.':'دفعهٔ بعد بهتر می‌شود.'} امتیاز ثبت شد.</div>`+h+'<div class="row"><button class="btn main" onclick="location.reload()">نفر بعدی</button></div>';
+render();$('res').scrollIntoView({behavior:'smooth'});
+const rec={f:u.f,l:u.l,p:u.p,s:sco,i:ix,t:Date.now()};
+try{if(API){await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(rec)});return}}catch(e){}
+try{const a=JSON.parse(localStorage.getItem('pp')||'[]');a.push(rec);localStorage.setItem('pp',JSON.stringify(a))}catch(e){}};
+$('lb').onclick=async()=>{let a=[];
+try{if(API){a=await (await fetch(API)).json()}}catch(e){}
+try{a=a.concat(JSON.parse(localStorage.getItem('pp')||'[]'))}catch(e){}
+a.sort((x,y)=>y.s-x.s||x.t-y.t);
+$('bt').innerHTML=a.length?'<table><tr><th>#</th><th>نام</th><th>شماره</th><th>امتیاز</th></tr>'+a.slice(0,20).map((x,i)=>`<tr><td>${i+1}</td><td>${x.f} ${x.l}</td><td dir="ltr">${x.p.slice(0,4)}***${x.p.slice(-3)}</td><td>${x.s}</td></tr>`).join('')+'</table>':'<div class="empty">هنوز نتیجه‌ای ثبت نشده است.</div>';show('bd')};
+</script>
+</body>
+</html>
