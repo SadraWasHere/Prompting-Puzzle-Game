@@ -76,7 +76,9 @@ table{width:100%;border-collapse:collapse;font-size:.9rem}td,th{padding:5px 6px;
 </section>
 </main>
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbwBGx2cs_-QC-whkfNz69PCObhWDT4LvpbO9pahIZBX1smReHKmRM3fsgp1LKsMFUN4Lw/exec'
+const API='https://script.google.com/macros/s/AKfycbwBGx2cs_-QC-whkfNz69PCObhWDT4LvpbO9pahIZBX1smReHKmRM3fsgp1LKsMFUN4Lw/exec';
+const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function send(rec){try{const c=new AbortController(),tm=setTimeout(()=>c.abort(),20000);const rs=await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(rec),signal:c.signal});clearTimeout(tm);const j=await rs.json();return !!(j&&j.ok)}catch(e){return false}}
 const P=[
 {k:'ctx',n:'زمینه',c:'#9be3a6',e:'🟩'},{k:'role',n:'نقش',c:'#9cc9f5',e:'🟦'},{k:'ex',n:'نمونه',c:'#f7e08a',e:'🟨'},
 {k:'con',n:'محدودیت',c:'#f5a3a3',e:'🟥'},{k:'steps',n:'مراحل',c:'#cfa8ef',e:'🟪'},{k:'think',n:'تفکر',c:'#f8c08a',e:'🟧'}];
@@ -100,8 +102,7 @@ const D=[
 ['متن پوستر آگاه‌سازی دربارهٔ واکسیناسیون','سالمندان','مرکز بهداشت محله، زمستان','کارشناس آموزش سلامت','حداکثر ۵۰ کلمه، لحن امیدوار','«یک واکسن امروز، یک زمستان آرام‌تر»','','','noonxx'],
 ['تحلیل نتایج نظرسنجی رضایت از غذای دانشگاه','مدیر تغذیهٔ دانشگاه','۵۰۰ نفر، میانگین رضایت ۳٫۲ از ۵','تحلیلگر داده','سه یافتهٔ اصلی و دو پیشنهاد','','۱) نقاط ضعف ۲) گروه‌های ناراضی ۳) علت‌ها ۴) اقدام پیشنهادی','علل احتمالی و سوگیری نظرسنجی','noxonn']];
 const $=id=>document.getElementById(id),pm=k=>P.find(x=>x.k===k);
-let db=null,u={},sc,ix,r,sel,seq,open,done;
-try{claude.use('db').then(d=>db=d).catch(()=>{})}catch(e){}
+let u={},sc,ix,r,sel,seq,open,done;
 function show(id){['reg','bd','game'].forEach(s=>$(s).hidden=s!==id)}
 function mk(d){const[T,A,Z,R,C,E,S,F,N]=d,sh=a=>a.sort(()=>Math.random()-.5);
 const o={ctx:[[T+'؛ مخاطب: '+A+'؛ '+Z,2],[T,1],['یک متن دربارهٔ همین موضوع بنویس',0]],
@@ -140,16 +141,23 @@ let ok=0,tot=0;for(let a=0;a<seq.length;a++)for(let b=a+1;b<seq.length;b++){tot+
 const oc=tot?ok/tot:0,sco=Math.round(80*Math.max(0,sum)/max+20*oc);
 h+=`<div class="fb">${tot&&oc===1?'✅':'⚠️'} <b>ترتیب:</b> ${tot?(oc===1?'ترتیب بلوک‌ها منطقی بود.':'ترتیب بلوک‌ها بهتر می‌شد.'):'برای سنجش ترتیب حداقل دو بلوک لازم است.'} ترتیب پیشنهادی: نقش ← زمینه ← مراحل ← تفکر ← نمونه ← محدودیت</div>`;
 $('res').hidden=false;
-$('res').innerHTML=`<div class="score">${sco}٪</div><div class="hint">${sco>=85?'پرامپت‌نویس حرفه‌ای!':sco>=55?'خوب بود، یک قدم دیگر مانده.':'دفعهٔ بعد بهتر می‌شود.'} امتیاز ثبت شد.</div>`+h+'<div class="row"><button class="btn main" onclick="location.reload()">نفر بعدی</button></div>';
+$('res').innerHTML=`<div class="score">${sco}٪</div><div class="hint">${sco>=85?'پرامپت‌نویس حرفه‌ای!':sco>=55?'خوب بود، یک قدم دیگر مانده.':'دفعهٔ بعد بهتر می‌شود.'}</div>`+h+'<div class="fb" id="sv">⏳ در حال ثبت امتیاز…</div><div class="row"><button class="btn" id="rt" hidden>تلاش دوباره برای ثبت</button><button class="btn main" id="nx" disabled onclick="location.reload()">نفر بعدی</button></div>';
 render();$('res').scrollIntoView({behavior:'smooth'});
 const rec={f:u.f,l:u.l,p:u.p,s:sco,i:ix,t:Date.now()};
-try{if(API){await fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(rec)});return}}catch(e){}
-try{const a=JSON.parse(localStorage.getItem('pp')||'[]');a.push(rec);localStorage.setItem('pp',JSON.stringify(a))}catch(e){}};
-$('lb').onclick=async()=>{let a=[];
-try{if(API){a=await (await fetch(API)).json()}}catch(e){}
-try{a=a.concat(JSON.parse(localStorage.getItem('pp')||'[]'))}catch(e){}
-a.sort((x,y)=>y.s-x.s||x.t-y.t);
-$('bt').innerHTML=a.length?'<table><tr><th>#</th><th>نام</th><th>شماره</th><th>امتیاز</th></tr>'+a.slice(0,20).map((x,i)=>`<tr><td>${i+1}</td><td>${x.f} ${x.l}</td><td dir="ltr">${x.p.slice(0,4)}***${x.p.slice(-3)}</td><td>${x.s}</td></tr>`).join('')+'</table>':'<div class="empty">هنوز نتیجه‌ای ثبت نشده است.</div>';show('bd')};
+let okSave=await send(rec);
+if(!okSave){try{const a=JSON.parse(localStorage.getItem('pp')||'[]');a.push(rec);localStorage.setItem('pp',JSON.stringify(a))}catch(e){}
+$('sv').textContent='⚠️ ثبت امتیاز در سرور انجام نشد. اینترنت را بررسی کن و دوباره تلاش کن، یا به برگزارکننده خبر بده.';
+$('rt').hidden=false;$('nx').disabled=false;
+$('rt').onclick=async()=>{$('rt').disabled=true;$('sv').textContent='⏳ در حال ثبت امتیاز…';
+if(await send(rec)){try{localStorage.removeItem('pp')}catch(e){}$('sv').textContent='✅ امتیاز ثبت شد.';$('rt').hidden=true}else{$('sv').textContent='⚠️ باز هم ثبت نشد. به برگزارکننده خبر بده.';$('rt').disabled=false}}}
+else{$('sv').textContent='✅ امتیاز ثبت شد.';$('nx').disabled=false}};
+$('lb').onclick=async()=>{let a=[],ok=false;
+$('bt').innerHTML='<div class="empty">در حال دریافت…</div>';show('bd');
+try{const c=new AbortController(),tm=setTimeout(()=>c.abort(),20000);const rs=await fetch(API,{signal:c.signal});clearTimeout(tm);a=await rs.json();ok=Array.isArray(a)}catch(e){}
+if(!ok){a=[];try{a=JSON.parse(localStorage.getItem('pp')||'[]')}catch(e){}}
+a.sort((x,y)=>(y.s-x.s)||(x.t-y.t));
+const warn=ok?'':'<div class="err">اتصال به سرور برقرار نشد؛ فقط نتایج همین دستگاه نمایش داده می‌شود.</div>';
+$('bt').innerHTML=warn+(a.length?'<table><tr><th>#</th><th>نام</th><th>شماره</th><th>امتیاز</th></tr>'+a.slice(0,20).map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.f)} ${esc(x.l)}</td><td dir="ltr">${esc(String(x.p).slice(0,4))}***${esc(String(x.p).slice(-3))}</td><td>${esc(x.s)}</td></tr>`).join('')+'</table>':'<div class="empty">هنوز نتیجه‌ای ثبت نشده است.</div>')};
 </script>
 </body>
 </html>
