@@ -102,71 +102,6 @@ body[data-scene=thankyou]{--x1:18%;--y1:82%;--x2:82%;--y2:18%;--x3:50%;--y3:50%}
 body.intro-open{overflow:hidden}
 .intro-low-power .intro-overlay .intro-backdrop{backdrop-filter:none;-webkit-backdrop-filter:none}
 
-
-/* Registration: keep the complete form in the viewport on phones and desktops. */
-body[data-scene=reg] main{min-height:100svh;padding:4px 10px;display:flex;align-items:center;justify-content:center}
-#reg.card{margin: max(8px,2vh) auto;padding:clamp(12px,2.2vh,22px);width:min(520px,100%);max-height:calc(100svh - 16px);overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(4px,1vh,10px)}
-#reg .brand-hero{margin:0 0 2px}
-#reg .brand-hero .logo{width:clamp(54px,9vh,82px);max-height:9vh;margin:0 auto 2px}
-#reg .brand-hero h1{font-size:clamp(1.55rem,3vh,2.1rem)}
-#reg .brand-hero .sub{font-size:clamp(.82rem,1.8vh,1rem);margin-top:1px}
-#reg .hint{font-size:clamp(.72rem,1.65vh,.86rem);line-height:1.65;margin:0 auto 2px;max-width:60ch}
-.reg-fields{display:grid;gap:clamp(4px,.8vh,8px);margin-top:2px}
-.reg-field{display:grid;grid-template-columns:clamp(92px,22%,118px) minmax(0,1fr);align-items:center;gap:8px}
-#reg label{margin:0;font-size:clamp(.78rem,1.7vh,.9rem)}
-#reg input{min-width:0;padding:clamp(6px,1.1vh,10px) 10px;font-size:clamp(.85rem,1.8vh,1rem)}
-#reg .err{min-height:1.25em;font-size:.8rem;margin:0}
-#reg .row{margin-top:2px;justify-content:center}
-#reg .privacy{font-size:clamp(.65rem,1.45vh,.76rem);line-height:1.55;margin:2px auto 0;text-align:center}
-.result-backdrop{position:fixed;inset:0;z-index:1000;background:rgba(4,4,14,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-#res.res{position:fixed;z-index:1001;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,calc(100vw - 28px));max-height:min(86svh,760px);overflow-y:auto;margin:0;padding:clamp(16px,3vw,26px);box-shadow:0 24px 90px rgba(0,0,0,.65);overscroll-behavior:contain}
-#res .row{direction:ltr;justify-content:flex-start;position:sticky;bottom:0;padding-top:10px;background:linear-gradient(transparent,rgba(20,16,40,.96) 24%)}
-body.result-open{overflow:hidden}
-/* Desktop workspace also stays inside the viewport; long panels scroll internally only when necessary. */
-@media (min-width:901px) and (min-height:600px){
- body[data-scene=game]{overflow:hidden}
- body[data-scene=game] main{height:100svh;max-width:1180px;padding:10px 16px;display:flex;flex-direction:column;overflow:hidden}
- #game{min-height:0;flex:1;display:flex;flex-direction:column;overflow:hidden}
- #game .bar{flex:0 0 auto;margin:0 0 6px}
- #game .problem{flex:0 0 auto;max-height:22svh;overflow:auto;margin:0 0 8px}
- #game .grid{flex:1;min-height:0;overflow:hidden}
- #game .panel{min-height:0;overflow:auto}
-}
-/* Landscape phones use the desktop three-column workspace; portrait stays untouched. */
-@media (orientation:landscape) and (max-height:600px) and (min-width:600px){
- body[data-scene=game]{overflow:hidden}
- body[data-scene=game] main{height:100svh;max-width:none;padding:6px 10px;display:flex;flex-direction:column;overflow:hidden}
- #game{min-height:0;flex:1;display:flex;flex-direction:column;overflow:hidden}
- #game .bar{flex:0 0 auto;margin:0 0 4px;font-size:.76rem;min-height:26px}
- #game .bar .mini{width:23px}
- #game .problem{flex:0 0 auto;padding:6px 10px;margin:0 0 6px;font-size:.78rem;line-height:1.45;max-height:24svh;overflow:auto}
- #game .grid{flex:1;min-height:0;grid-template-columns:minmax(145px, .78fr) minmax(180px,1fr) minmax(210px,1.15fr);gap:7px;overflow:hidden}
- #game .panel{padding:7px;overflow:auto;min-height:0}
- #game .panel h2{font-size:.76rem;margin-bottom:4px}
- #game .panel .small{font-size:.66rem;line-height:1.4}
- #game .pr{padding:5px 7px;margin-bottom:4px;font-size:.76rem;gap:5px}
- #game .opt{padding:5px 7px;margin-bottom:4px;font-size:.72rem;line-height:1.4;gap:5px}
- #game .letter{width:22px;height:22px;flex-basis:22px}
- #game .order-hint{padding:4px 6px;margin:2px 0 5px;font-size:.64rem}
- #game .blk{font-size:.7rem;padding:5px 8px 5px 70px;line-height:1.4}
- #game .blk b{font-size:.68rem}
- #game .ctl{top:4px;left:4px}
- #game .ctl button{width:20px;height:20px}
- #game .cap{padding:4px 7px;font-size:.7rem}
- #game .empty{padding:7px;font-size:.7rem}
- #game .row{margin-top:6px}
- #game .btn{padding:5px 12px;font-size:.76rem}
-}
-@media (max-height:430px) and (orientation:landscape){
- #reg.card{padding:7px 14px;gap:3px}
- #reg .brand-hero .logo{width:44px;height:44px}
- #reg .brand-hero h1{font-size:1.35rem}
- #reg .hint{font-size:.68rem;line-height:1.35}
- #reg .reg-fields{gap:2px}
- #reg input{padding:4px 8px}
- #reg .privacy{font-size:.62rem;line-height:1.3}
-}
-
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
 <link rel="preload" href="./questions.json" as="fetch" crossorigin="anonymous">
@@ -193,18 +128,15 @@ body.result-open{overflow:hidden}
 <main>
 <section id="reg" class="gl card">
 <div class="brand-hero"><img class="logo" alt="" width="112"><h1 dir="ltr">Pruzzle!</h1><div class="sub">۶ تکنیک برای نوشتن پرامپت کارآمدتر</div></div>
-<div class="hint">از میان ۶۰ سناریوی آموزشی، یک سناریوی تصادفی دریافت می‌کنی. فقط تکنیک‌های مرتبط با همان سناریو نمایش داده می‌شوند؛ بعضی ضروری و بعضی اختیاری‌اند. گزینه‌های مناسب را انتخاب کن و بلوک‌ها را طبق ترتیب ثابت بازی بچین.</div>
-<div class="reg-fields">
-<div class="reg-field"><label for="fn">نام</label><input id="fn" autocomplete="off" maxlength="60"></div>
-<div class="reg-field"><label for="ln">نام خانوادگی</label><input id="ln" autocomplete="off" maxlength="80"></div>
-<div class="reg-field"><label for="ph">شمارهٔ همراه</label><input id="ph" dir="ltr" inputmode="numeric" placeholder="09123456789" autocomplete="off" maxlength="14"></div>
-</div>
+<div class="hint">از میان ۳۰ سناریوی آموزشی، یک سناریوی تصادفی دریافت می‌کنی. فقط تکنیک‌های مرتبط با همان سناریو نمایش داده می‌شوند؛ بعضی ضروری و بعضی اختیاری‌اند. گزینه‌های مناسب را انتخاب کن و بلوک‌ها را طبق ترتیب ثابت بازی بچین.</div>
+<label for="fn">نام</label><input id="fn" autocomplete="off" maxlength="60">
+<label for="ln">نام خانوادگی</label><input id="ln" autocomplete="off" maxlength="80">
+<label for="ph">شمارهٔ همراه</label><input id="ph" dir="ltr" inputmode="numeric" placeholder="09123456789" autocomplete="off" maxlength="14">
 <div class="err" id="er" aria-live="polite"></div>
 <div class="row"><button class="btn main" id="st">شروع بازی</button><button class="btn" id="lb">جدول نتایج</button></div>
 <div class="privacy">نام و شمارهٔ همراه برای ثبت نتیجه به سرویس ثبت نتایج متصل‌شده به این بازی ارسال می‌شود. در جدول نتایج، شماره به‌صورت ناقص نمایش داده می‌شود.</div>
 </section>
 <section id="bd" class="gl card" hidden style="max-width:720px"><h1>جدول نتایج</h1><div id="bt"></div><div class="row"><button class="btn" id="back">بازگشت</button></div></section>
-<div id="resultBackdrop" class="result-backdrop" hidden aria-hidden="true"></div>
 <section id="game" hidden>
 <div class="bar"><span id="who"></span><span class="brandmark"><img class="logo mini" alt=""><b dir="ltr">Pruzzle!</b></span><span id="sn" hidden></span></div>
 <div class="gl problem" id="prob"></div>
@@ -301,7 +233,6 @@ document.addEventListener('pointerdown',e=>{
 });
 const SECS=['reg','bd','game','thankyou'];let curSec='reg',tk=0;
 function show(id){
- if(id!=='game'){$('res').hidden=true;$('resultBackdrop').hidden=true;document.body.classList.remove('result-open')}
  if(id===curSec)return;const t=++tk,from=$(curSec),to=$(id);curSec=id;
  document.body.dataset.scene=id;
  SECS.forEach(s=>{if(s!==id&&s!==from.id){$(s).hidden=true}});
@@ -322,7 +253,7 @@ async function start(){
  sel={};seq=[];open=null;done=false;
  $('who').textContent=f+' '+l;$('sn').textContent=`سناریو ${String(sc.id).padStart(2,'0')} از ${D.length}`;
  $('prob').textContent=`${sc.title}\n\nمأموریت: ${sc.mission}\nمخاطب: ${sc.audience}\nموقعیت: ${sc.situation}`;
- $('res').hidden=true;$('resultBackdrop').hidden=true;show('game');render();
+ $('res').hidden=true;show('game');render();
 }
 function render(){
  const active=activeTechniques();
@@ -360,9 +291,9 @@ function evaluate(){
  const chain=active.map(p=>p.n).join(' ← ');
  const globalChain=P.map(p=>p.n).join(' ← ');
  const orderText=pairs?(ok===pairs?'ترتیب بلوک‌های انتخاب‌شده با ترتیب ثابت همه سناریوها هماهنگ است.':`${ok} مورد از ${pairs} مقایسهٔ دوتایی با ترتیب ثابت هماهنگ بود.`):'برای سنجش ترتیب، دست‌کم دو بلوک باید وارد پرامپت شده باشد.';
- $('res').hidden=false;$('resultBackdrop').hidden=false;document.body.classList.add('result-open');
- $('res').innerHTML=`<div class="score">${score}٪</div><div class="hint">${score>=85?'عملکرد عالی!':score>=60?'خوب بود؛ چند انتخاب را می‌توان دقیق‌تر کرد.':'برای بهبود پرامپت، بازخوردها را مرور کن.'} نتیجه ثبت شد.</div>${feedback}<div class="fb">${pairs&&ok===pairs?'✅':'⚠️'} <b>ترتیب:</b> ${orderText}<br><span class="small">ترتیب اجزای قابل‌استفاده در این سناریو: ${chain}</span><br><span class="small">ترتیب ثابت همه سناریوها: ${globalChain}</span></div><div class="fb"><b>اجزای ضروری این سناریو:</b><br><span>${sc.required.map(k=>pm(k).n).join(' ← ')}</span></div><div class="row"><button class="btn main" id="finish">فهمیدم</button></div>`;
- render();$('finish').addEventListener('click',()=>{ $('res').hidden=true;$('resultBackdrop').hidden=true;document.body.classList.remove('result-open');show('thankyou') });
+ $('res').hidden=false;
+ $('res').innerHTML=`<div class="score">${score}٪</div><div class="hint">${score>=85?'عملکرد عالی!':score>=60?'خوب بود؛ چند انتخاب را می‌توان دقیق‌تر کرد.':'برای بهبود پرامپت، بازخوردها را مرور کن.'} نتیجه ثبت شد.</div>${feedback}<div class="fb">${pairs&&ok===pairs?'✅':'⚠️'} <b>ترتیب:</b> ${orderText}<br><span class="small">ترتیب اجزای قابل‌استفاده در این سناریو: ${chain}</span><br><span class="small">ترتیب ثابت همه سناریوها: ${globalChain}</span></div><div class="fb"><b>اجزای ضروری این سناریو:</b><br><span>${sc.required.map(k=>pm(k).n).join(' ← ')}</span></div><div class="row"><button class="btn main" id="finish">پایان</button></div>`;
+ render();$('finish').addEventListener('click',()=>show('thankyou'));$('res').scrollIntoView({behavior:'smooth',block:'start'});
  const rec={f:u.f,l:u.l,p:u.p,s:score,i:ix,t:Date.now()};saveResult(rec);
 }
 async function saveResult(rec){
